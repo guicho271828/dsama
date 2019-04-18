@@ -1,0 +1,1 @@
+{"parameters": {"lr": 0.001, "batch_size": 2000, "full_epoch": 1000, "epoch": 1000, "max_temperature": 5.0, "min_temperature": 0.1, "M": 120, "argmax": true, "N": 1, "layer": 400, "encoder_layers": 2, "decoder_layers": 2, "dropout": 0.4, "encoder_activation": "relu", "decoder_activation": "relu"}, "input_shape": [288]}

@@ -1,0 +1,53 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#| <Put a one-line description here>
+exec ros -Q -- $0 "$@"
+|#
+(progn ;;init forms
+  (ros:ensure-asdf)
+  #+quicklisp (ql:quickload '(:eazy-gnuplot) :silent t)
+  )
+
+(defpackage :ros.script.plot-init
+  (:use :cl :eazy-gnuplot))
+(in-package :ros.script.plot-init)
+
+(defun main (x y &optional i &rest argv &aux (name (format nil "~{~a~^-~}" (if (plusp (length i)) (list x y i) (list x y)))))
+  (declare (ignorable argv))
+  (with-plots (s :debug t)
+    (gp-setup :output (make-pathname :type "pdf"
+                                     :defaults name)
+              :terminal `(:pdf :enhanced
+                               :size
+                               (8 8) ; inch ; half column, US letterpaper
+                               ;; (800 800)
+                               ;; :dashed
+                               ;; :background :rgb ,(if improved "white" "gray90")
+                               ;; :monochrome
+                               :font "Times New Roman, 24")
+              :size :square
+              :view '(:equal :xy)
+              :key '(:bottom :right
+                     :font "Times New Roman, 36")
+              :pointsize 1
+              ;; :logscale :xy
+              ;; :format '(xy "10^%T")
+              :mxtics :default
+              :mytics :default
+              :title "Preliminary results: RF trained on mandrill 8-puzzle, 144 latent bits\\n learned by CosineTransitionAE, \alpha 0.7, \beta 1.0, 56'th action"
+              :xlabel x
+              :ylabel y)
+    (plot "x"
+          :with :lines)
+
+    (plot (make-pathname :type "table" :defaults name)
+          :using '(3 7)
+          :with :points
+          :title (format nil "← ~a is better. Test " y))
+    #+(or)
+    (plot (make-pathname :type "table" :defaults name)
+          :using '(1 5)
+          :with :points
+          :title (format nil "← ~a is better. Train" y))))
+
+;;; vim: set ft=lisp lisp:
