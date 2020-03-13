@@ -62,7 +62,7 @@ MLIC --- not used.
                    add-false-labels
                    (asarray <> :type 'bit)))
            (dataset (shuffle (concatenate (list true fake))))
-           (in        (aref dataset t '(0 -2)))
+           (in        (aref dataset t '(0 -1)))
            (out       (round (aref dataset t -1)))
            (train-num (floor (* *train-ratio* (length pres))))
            (train-in  (aref pres `(0 ,train-num)))

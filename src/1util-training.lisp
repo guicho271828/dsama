@@ -47,7 +47,7 @@ DSAMA.  If not, see <http://www.gnu.org/licenses/>.
   (destructuring-bind (&key (train-ratio *train-ratio*) &allow-other-keys) params
     (let* ((dataset (shuffle (concatenate (list (add-true-labels valid)
                                                 (add-false-labels fake)))))
-           (in        (aref dataset t '(0 -2)))
+           (in        (aref dataset t '(0 -1)))
            (out       (aref dataset t -1))
            (len (length dataset))
            (train-num (floor (* train-ratio len)))
